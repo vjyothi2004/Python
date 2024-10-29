@@ -1,0 +1,7 @@
+#maximum of two numbers
+first_num=int(input("Enter first number:"))
+sec_num=int(input("Enter second number:"))
+if(first_num>sec_num):
+    print(first_num," is greater than ",sec_num)
+else:
+    print(sec_num," is greater than ",first_num)
