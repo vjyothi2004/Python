@@ -1,0 +1,6 @@
+n1=int(input("Enter first number:"))
+n2=int(input("Enter second number:"))
+n3=a//b
+print("Division of two numbers is:",n3)
+n4=a%b
+print("Remainder of two numbers is:",n4)
