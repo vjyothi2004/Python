@@ -1,0 +1,4 @@
+n1=int(input("Enter first number:"))
+n2=int(input("Enter second number:"))
+n3=a-b
+print("Difference of two numbers is:",n3)
