@@ -1,0 +1,13 @@
+num=int(input("Enter a number:"))
+first=0
+second=1 
+if num==1:
+    print(num)
+else:
+    print(first)
+    print(second)
+    for i in range(1,num-1):
+        third=first+second
+        first=second
+        second=third
+        print(third)
