@@ -1,0 +1,12 @@
+#If sum of cubes of every digit is equal to that number then it is Armstrong Number
+num=int(input("Enter a number:"))
+Sum=0
+m=num  
+while(num>0):
+    rem=num%10
+    Sum=Sum+rem*rem*rem     
+    num=num//10
+if(Sum==m):
+    print("Armstrong Number")
+else:
+    print("Not an Armstrong Number")
