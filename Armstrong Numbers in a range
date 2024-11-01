@@ -1,0 +1,13 @@
+l=int(input("Enter lower limit of the range:"))
+u=int(input("Enter upper limit of the range:"))
+for num in range(l,u+1):
+    m=num
+    Sum=0
+    while(num>0):
+        rem=num%10
+        Sum=Sum+rem*rem*rem
+        num=num//10
+    if(Sum==m):
+        print(m)
+    else:
+        continue
