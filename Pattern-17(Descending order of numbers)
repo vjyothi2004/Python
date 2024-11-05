@@ -1,0 +1,13 @@
+#Pattern-17:
+#Descending order of numbers
+5 5 5 5 5
+4 4 4 4
+3 3 3
+2 2
+1
+n=int(input("Enter no. of rows:"))
+for i in range(n,0,-1):
+    n=i
+    for j in range(0,i):
+        print(n,end=" ")
+    print()
