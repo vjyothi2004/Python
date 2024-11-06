@@ -1,0 +1,10 @@
+#method-1
+s=input("Enter any word:")
+print(s[::-1])
+
+#method-2
+s=input("Enter any word:")
+rev=" "
+for i in s:
+    rev=i+rev 
+print(rev)
