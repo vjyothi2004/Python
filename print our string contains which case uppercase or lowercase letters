@@ -1,0 +1,6 @@
+s=input("Enter any string:")
+for i in s:
+    if(i.isupper()):
+        print("Upper")
+    else:
+        print("Lower")
