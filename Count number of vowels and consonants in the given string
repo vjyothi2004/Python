@@ -1,0 +1,11 @@
+s=input("Enter any string:")
+vowels="aeiouAEIOU"
+vow_count=0
+cons_count=0
+for i in s:
+    if i in vowels:
+        vow_count+=1 
+    else:
+        cons_count+=1 
+print("No.Of vowels:",vow_count)
+print("No.Of consonants:",cons_count)
