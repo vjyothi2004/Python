@@ -1,0 +1,10 @@
+s=input("Enter any string:")
+capitals=0
+smalls=0
+for i in s:
+    if(ord(i)>=97 and ord(i)<=122):
+        smalls+=1 
+    elif(ord(i)>=65 and ord(i)<=90):
+        capitals+=1 
+print("No. of capital letters:",capitals)
+print("No. of small letters:",smalls)
