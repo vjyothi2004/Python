@@ -1,0 +1,16 @@
+# Read a list from user and a target element check whether
+the given target is obtained by adding any two numbers in the list
+if it is obtained print the indexes of those elements.
+********************************************************************
+list1=list(map(int,input().split()))
+target=int(input())
+low=0
+high=len(list1)-1
+while(low<high):
+    if(list1[low]+list1[high]==target):
+        print([low,high])
+        break
+    elif(list1[low]<list1[high]):
+        high-=1 
+    else:
+        low+=1
