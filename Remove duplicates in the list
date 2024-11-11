@@ -1,0 +1,3 @@
+l=list(map(int,input().split()))
+s=set(l) #set() doesnot contain duplicates soo converting list to set to remove duplicates
+print(list(s))
