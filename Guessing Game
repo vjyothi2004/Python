@@ -1,0 +1,7 @@
+import random
+ran_num=random.randint(1,10)
+guess=int(input())
+if(guess==ran_num):
+    print("Your guess is correct")
+else:
+    print("Try again!!!!")
