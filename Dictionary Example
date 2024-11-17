@@ -1,0 +1,4 @@
+person={"name":"Jyothi","age":"20"}
+print(person["name"])
+person["country"]="India"
+print(person)
