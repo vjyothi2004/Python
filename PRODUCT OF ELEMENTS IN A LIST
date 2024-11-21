@@ -1,0 +1,5 @@
+list1=list(map(int,input().split()))
+s=1
+for i in list1:
+    s=s*i
+print(s)
