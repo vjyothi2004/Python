@@ -1,0 +1,8 @@
+num=int(input("Enter a number:"))
+def find_fact(num):
+    if(num==1):
+        return 1
+    else:
+        return num*find_fact(num-1)
+res=find_fact(num)
+print("The Factorial of",num,"is",res)
