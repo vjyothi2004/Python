@@ -1,0 +1,12 @@
+def find_HCF(x,y):
+    if x>y:
+        small=y
+    else:
+        small=x 
+    for i in range(1,small+1):
+        if((x%i==0) and (y%i==0)):
+            hcf=i 
+    return hcf
+x=int(input("Enter 1st number:"))
+y=int(input("Enter 2nd number:"))
+print("HCF of ",x,y,"is",find_HCF(x,y))
