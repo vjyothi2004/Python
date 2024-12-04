@@ -1,0 +1,6 @@
+l1=list(map(int,input().split()))
+l2=list(map(int,input().split()))
+if(len(l1)==len(l2)):
+    for i in range(0,len(l1)):
+        l1[i]=l1[i]+l2[i]
+print("Sum of array elements is:",l1)
