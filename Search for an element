@@ -1,0 +1,5 @@
+l=list(map(int,input().split()))
+n=int(input())
+for i in range(len(l)):
+    if n==l[i]:
+        print(n,"is present")
