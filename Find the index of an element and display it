@@ -1,0 +1,8 @@
+def find_index(lst, value):
+    for i in range(len(lst)):
+        if lst[i] == value:
+            return i
+    return -1
+
+numbers = [3, 5, 7, 2, 8]
+print("Index of 7:", find_index(numbers, 7))
