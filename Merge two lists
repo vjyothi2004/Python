@@ -1,0 +1,12 @@
+def merge_lists(lst1, lst2):
+    merged = []
+    for item in lst1:
+        merged.append(item)
+    for item in lst2:
+        merged.append(item)
+    return merged
+
+# Example
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+print("Merged list:", merge_lists(list1, list2))
