@@ -1,0 +1,9 @@
+def count_occurrences(lst, value):
+    count = 0
+    for item in lst:
+        if item == value:
+            count += 1
+    return count
+
+numbers = list(map(int,input().split()))
+print("Occurrences of 7:", count_occurrences(numbers, 7))
