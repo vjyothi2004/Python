@@ -1,0 +1,11 @@
+def remove_duplicates(lst):
+    unique = []
+    for item in lst:
+        if item not in unique:
+            unique.append(item)
+    return unique
+
+# Example
+numbers = [3, 5, 3, 7, 2, 7, 8]
+print("List without duplicates:", remove_duplicates(numbers))
+
