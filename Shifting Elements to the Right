@@ -1,0 +1,11 @@
+def shift_right(lst):
+    if not lst:
+        return lst
+    shifted = [lst[-1]]
+    for i in range(len(lst) - 1):
+        shifted.append(lst[i])
+    return shifted
+
+# Example
+numbers = [1, 2, 3, 4, 5]
+print("Shifted list:", shift_right(numbers))
