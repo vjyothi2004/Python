@@ -1,0 +1,14 @@
+def insert_at(lst, index, value):
+    new_list = []
+    for i in range(len(lst) + 1):
+        if i < index:
+            new_list.append(lst[i])
+        elif i == index:
+            new_list.append(value)
+        else:
+            new_list.append(lst[i - 1])
+    return new_list
+
+# Example
+numbers = [1, 2, 4, 5]
+print("After insertion:", insert_at(numbers, 2, 3))
