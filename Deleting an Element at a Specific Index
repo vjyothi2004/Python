@@ -1,0 +1,10 @@
+def delete_at(lst, index):
+    new_list = []
+    for i in range(len(lst)):
+        if i != index:
+            new_list.append(lst[i])
+    return new_list
+
+# Example
+numbers = [1, 2, 3, 4, 5]
+print("After deletion:", delete_at(numbers, 2))
