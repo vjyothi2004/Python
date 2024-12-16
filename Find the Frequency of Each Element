@@ -1,0 +1,12 @@
+arr = [1, 2, 2, 3, 4, 4, 4, 5]
+
+# Calculate frequency manually
+frequency = {}
+for i in arr:
+    if i not in frequency:
+        frequency[i] = 0
+    frequency[i] += 1
+
+# Print frequencies
+for key, value in frequency.items():
+    print(f"{key} occurs {value} times")
