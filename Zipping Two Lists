@@ -1,0 +1,12 @@
+def zip_lists(lst1, lst2):
+    zipped = []
+    n = min(len(lst1), len(lst2))
+    for i in range(n):
+        zipped.append((lst1[i], lst2[i]))
+    return zipped
+
+# Example
+list1 = [1, 2, 3]
+list2 = ['a', 'b', 'c']
+print("Zipped list:", zip_lists(list1, list2))
+
