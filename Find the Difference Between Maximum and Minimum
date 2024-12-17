@@ -1,0 +1,14 @@
+arr = [10, 20, 4, 45, 99]
+
+# Find manually
+smallest = arr[0]
+largest = arr[0]
+
+for i in arr:
+    if i < smallest:
+        smallest = i
+    if i > largest:
+        largest = i
+
+difference = largest - smallest
+print("Difference between max and min:", difference)
