@@ -1,0 +1,12 @@
+arr = [7, 10, 4, 3, 20, 15]
+k = 3
+
+# Find kth smallest element manually using selection sort logic
+for i in range(k):
+    min_index = i
+    for j in range(i + 1, len(arr)):
+        if arr[j] < arr[min_index]:
+            min_index = j
+    arr[i], arr[min_index] = arr[min_index], arr[i]
+
+print(f"The {k}th smallest element is:", arr[k - 1])
