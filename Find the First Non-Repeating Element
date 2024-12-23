@@ -1,0 +1,23 @@
+arr = [9, 4, 9, 6, 7, 4]
+
+# Find first non-repeating element manually
+frequency = {}
+
+# Count frequency of each element
+for num in arr:
+    if num in frequency:
+        frequency[num] += 1
+    else:
+        frequency[num] = 1
+
+# Find the first non-repeating element
+first_non_repeating = None
+for num in arr:
+    if frequency[num] == 1:
+        first_non_repeating = num
+        break
+
+if first_non_repeating:
+    print("First Non-Repeating Element:", first_non_repeating)
+else:
+    print("No Non-Repeating Element Found")
