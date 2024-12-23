@@ -1,0 +1,16 @@
+arr = [10, 5, 3, 4, 3, 5, 6]
+
+# Find first repeating element manually
+seen = {}
+first_repeating = None
+
+for i in range(len(arr)):
+    if arr[i] in seen:
+        first_repeating = arr[i]
+        break
+    seen[arr[i]] = True
+
+if first_repeating:
+    print("First Repeating Element:", first_repeating)
+else:
+    print("No Repeating Element Found")
