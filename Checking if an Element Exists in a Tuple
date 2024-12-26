@@ -1,0 +1,15 @@
+# Define a tuple
+my_tuple = (3, 6, 9, 12, 15)
+target = 9
+
+# Check if the target exists
+found = False
+for item in my_tuple:
+    if item == target:
+        found = True
+        break
+
+if found:
+    print(f"{target} exists in the tuple.")
+else:
+    print(f"{target} does not exist in the tuple.")
