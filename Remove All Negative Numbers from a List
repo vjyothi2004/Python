@@ -1,0 +1,10 @@
+def remove_negatives(lst):
+    result = []
+    for item in lst:
+        if item >= 0:
+            result.append(item)
+    return result
+
+# Example usage
+input_list = [-1, 2, -3, 4, 5]
+print(remove_negatives(input_list))
