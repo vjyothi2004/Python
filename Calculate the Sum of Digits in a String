@@ -1,0 +1,10 @@
+def sum_of_digits_in_string(s):
+    total = 0
+    for char in s:
+        if char.isdigit():
+            total += int(char)
+    return total
+
+# Example usage
+input_str = "abc123xyz"
+print(sum_of_digits_in_string(input_str))
