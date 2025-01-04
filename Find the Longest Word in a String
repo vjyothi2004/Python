@@ -1,0 +1,20 @@
+def longest_word(s):
+    words = []
+    current_word = ""
+    for char in s:
+        if char == " ":
+            words.append(current_word)
+            current_word = ""
+        else:
+            current_word += char
+    words.append(current_word)
+
+    longest = ""
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest
+
+# Example usage
+input_str = "Find the longest word in this sentence"
+print(longest_word(input_str))
