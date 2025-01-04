@@ -1,0 +1,10 @@
+def binary_to_decimal(binary_str):
+    decimal = 0
+    for i in range(len(binary_str)):
+        bit = int(binary_str[-(i + 1)])
+        decimal += bit * (2 ** i)
+    return decimal
+
+# Example usage
+binary = "1101"
+print(binary_to_decimal(binary))
