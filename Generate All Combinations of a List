@@ -1,0 +1,15 @@
+def generate_combinations(lst, length, current_combination=None, index=0):
+    if current_combination is None:
+        current_combination = []
+
+    if len(current_combination) == length:
+        print(current_combination)
+        return
+
+    for i in range(index, len(lst)):
+        generate_combinations(lst, length, current_combination + [lst[i]], i + 1)
+
+# Example usage
+input_list = [1, 2, 3]
+combination_length = 2
+generate_combinations(input_list, combination_length)
