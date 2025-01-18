@@ -1,0 +1,14 @@
+numbers = [1, 2, 2, 3, 4, 4, 4]
+frequency = {}
+for num in numbers:
+    if num in frequency:
+        frequency[num] += 1
+    else:
+        frequency[num] = 1
+max_count = 0
+mode = None
+for key in frequency:
+    if frequency[key] > max_count:
+        max_count = frequency[key]
+        mode = key
+print(mode)
