@@ -1,0 +1,8 @@
+start, end = 1, 10
+lcm = 1
+for num in range(start, end + 1):
+    temp = lcm
+    while temp % num != 0:
+        temp += lcm
+    lcm = temp
+print(lcm)
