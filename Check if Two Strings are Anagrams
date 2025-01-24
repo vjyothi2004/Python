@@ -1,0 +1,19 @@
+string1 = "listen"
+string2 = "silent"
+is_anagram = True
+if len(string1) != len(string2):
+    is_anagram = False
+else:
+    for char in string1:
+        count1 = 0
+        count2 = 0
+        for c in string1:
+            if c == char:
+                count1 += 1
+        for c in string2:
+            if c == char:
+                count2 += 1
+        if count1 != count2:
+            is_anagram = False
+            break
+print(is_anagram)
