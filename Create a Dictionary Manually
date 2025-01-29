@@ -1,0 +1,7 @@
+dictionary = {}
+dictionary["name"] = "Alice"
+dictionary["age"] = 25
+dictionary["city"] = "New York"
+
+for key in dictionary:
+    print(key, ":", dictionary[key])
