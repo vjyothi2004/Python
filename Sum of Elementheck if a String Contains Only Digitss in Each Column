@@ -1,0 +1,7 @@
+string = "123456"
+is_digit = True
+for char in string:
+    if char < '0' or char > '9':
+        is_digit = False
+        break
+print(is_digit)
