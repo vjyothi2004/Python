@@ -1,0 +1,9 @@
+keys = ["a", "b", "c"]
+values = [1, 2, 3]
+dictionary = {}
+
+for i in range(len(keys)):
+    dictionary[keys[i]] = values[i]
+
+for key in dictionary:
+    print(key, ":", dictionary[key])
