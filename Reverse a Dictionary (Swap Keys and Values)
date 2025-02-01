@@ -1,0 +1,8 @@
+dictionary = {"a": 1, "b": 2, "c": 3}
+reversed_dict = {}
+
+for key in dictionary:
+    reversed_dict[dictionary[key]] = key
+
+for key in reversed_dict:
+    print(key, ":", reversed_dict[key])
