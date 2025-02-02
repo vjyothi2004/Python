@@ -1,0 +1,7 @@
+dictionary = {"x": 100, "y": 200, "z": 300}
+count = 0
+
+for key in dictionary:
+    count += 1
+
+print(count)
