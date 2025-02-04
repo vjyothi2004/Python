@@ -1,0 +1,15 @@
+dictionary = {"a": 10, "b": 20, "c": 10, "d": 30, "e": 20}
+same_value_keys = {}
+
+for key in dictionary:
+    found = False
+    for value_key in same_value_keys:
+        if dictionary[key] == value_key:
+            same_value_keys[value_key].append(key)
+            found = True
+            break
+    if not found:
+        same_value_keys[dictionary[key]] = [key]
+
+for value in same_value_keys:
+    print(value, ":", same_value_keys[value])
