@@ -1,0 +1,11 @@
+list1 = [1, 2, 3, 4, 5]
+list2 = [3, 4, 5, 6, 7]
+intersection = []
+
+for num in list1:
+    for num2 in list2:
+        if num == num2:
+            intersection.append(num)
+            break
+
+print(intersection)
