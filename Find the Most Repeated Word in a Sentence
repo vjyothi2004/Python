@@ -1,0 +1,35 @@
+sentence = "apple banana apple orange banana apple"
+words = []
+word = ""
+word_count = {}
+
+# Splitting words manually
+for char in sentence:
+    if char == " ":
+        words.append(word)
+        word = ""
+    else:
+        word += char
+words.append(word)
+
+# Counting occurrences
+for w in words:
+    found = False
+    for key in word_count:
+        if key == w:
+            word_count[key] += 1
+            found = True
+            break
+    if not found:
+        word_count[w] = 1
+
+# Finding most repeated word
+max_count = 0
+most_repeated = ""
+
+for key in word_count:
+    if word_count[key] > max_count:
+        max_count = word_count[key]
+        most_repeated = key
+
+print("Most Repeated Word:", most_repeated)
