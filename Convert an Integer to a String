@@ -1,0 +1,9 @@
+num = 12345
+result = ""
+
+while num > 0:
+    digit = num % 10
+    result = chr(digit + ord('0')) + result
+    num = num // 10
+
+print("Converted String:", result)
