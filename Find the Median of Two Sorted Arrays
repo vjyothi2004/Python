@@ -1,0 +1,30 @@
+arr1 = [1, 3, 8]
+arr2 = [7, 9, 10, 11]
+merged = []
+
+i = j = 0
+
+while i < len(arr1) and j < len(arr2):
+    if arr1[i] < arr2[j]:
+        merged.append(arr1[i])
+        i += 1
+    else:
+        merged.append(arr2[j])
+        j += 1
+
+while i < len(arr1):
+    merged.append(arr1[i])
+    i += 1
+
+while j < len(arr2):
+    merged.append(arr2[j])
+    j += 1
+
+n = len(merged)
+
+if n % 2 == 0:
+    median = (merged[n // 2 - 1] + merged[n // 2]) / 2
+else:
+    median = merged[n // 2]
+
+print("Median:", median)
