@@ -1,0 +1,8 @@
+string = "Hello this is a test"
+count = 1  # At least one word is present
+
+for i in range(len(string)):
+    if string[i] == " " and string[i - 1] != " ":
+        count += 1
+
+print("Word Count:", count)
