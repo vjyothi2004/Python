@@ -1,0 +1,9 @@
+num = 18
+temp = num
+sum_of_digits = 0
+
+while temp > 0:
+    sum_of_digits += temp % 10
+    temp //= 10
+
+print("Harshad Number" if num % sum_of_digits == 0 else "Not a Harshad Number")
