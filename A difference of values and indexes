@@ -1,0 +1,12 @@
+def maxDistance (self, arr, n) : 
+        max1, min1, max2, min2 = float('-inf'), float('inf'), float('-inf'), float('inf')
+        for i in range(n):
+            max1 = max(max1, arr[i] + i)
+            min1 = min(min1, arr[i] + i)
+            max2 = max(max2, arr[i] - i)
+            min2 = min(min2, arr[i] - i)
+        return max(max1 - min1, max2 - min2)
+arr[ ] = [5, 9, 2, 6]
+n = 4
+res=maxDistance(arr,n)
+print(res)
