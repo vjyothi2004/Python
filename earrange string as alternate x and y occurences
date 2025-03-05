@@ -1,0 +1,14 @@
+class Solution:
+    def arrangeString(self, s, x, y):
+        res=[]
+        zero_count=s.count("0")
+        one_count=len(s)-zero_count
+        while zero_count>0 and one_count>0:
+            res.append("0"*min(x,zero_count))
+            zero_count-=min(x,zero_count)
+            res.append("1"*min(y,one_count))
+            one_count-=min(y,one_count)
+        res.append('0'*zero_count)
+        res.append('1'*one_count)
+        
+        return "".join(res) 
