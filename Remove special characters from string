@@ -1,0 +1,8 @@
+#Remove special characters
+s=input("Enter a string: ")
+punc='~`!@#$%^&*(){} [];:''""|\.,<>?/+_-='
+empty_str=""
+for i in s:
+    if i not in punc:
+        empty_str+=i
+print(empty_str)
