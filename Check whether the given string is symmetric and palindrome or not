@@ -1,0 +1,16 @@
+#palindrome and symmetric
+s=input('Enter a string: ')
+s1=s[::-1]
+s2=""
+s3=""
+s4=""
+if(s==s1):
+    print("Palindrome")
+l=len(s)//2
+for i in range(0,l):
+    s2+=s[i]
+    s3=s2[::-1]
+for j in range(l,len(s)):
+    s4+=s[j]
+if(s4==s3):
+    print("Symmetric")
