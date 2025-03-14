@@ -1,0 +1,6 @@
+a,n=map(int,input().split())
+l=map(int,input().split())
+if n in l:   
+    print("YES")
+else:
+    print("NO")
