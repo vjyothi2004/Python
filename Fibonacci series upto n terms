@@ -1,0 +1,17 @@
+#fibonacci sequence upto n terms
+n=int(input("n: "))
+f=0
+s=1
+count=0
+if n==0:
+    print("Please, enter a positive number")
+elif(n==1):
+    print(f)
+else:
+    print("Fibonacci sequence:")
+    while count<n:
+        print(f)
+        t=f+s
+        f=s
+        s=t
+        count+=1
