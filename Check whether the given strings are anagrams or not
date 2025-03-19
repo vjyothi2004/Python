@@ -1,0 +1,7 @@
+#Anagrams or not
+s1=input('str1: ')
+s2=input('str2: ')
+if(sorted(s1)==sorted(s2)):
+    print("Both strings are Anagrams")
+else:
+    print("Both strings are not Anagrams")
