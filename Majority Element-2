@@ -1,0 +1,12 @@
+class Solution:
+    # Function to find the majority elements in the array
+    def findMajority(self, arr):
+        result=[]
+        n=len(arr)
+        frequency={}
+        for num in arr:
+            frequency[num]=frequency.get(num,0)+1
+        for key,value in frequency.items():
+            if value>n//3:
+                result.append(key)
+        return sorted(result)
