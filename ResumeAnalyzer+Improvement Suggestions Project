@@ -1,0 +1,370 @@
+🚀 Just Completed a New Project!
+🔍 Resume Analyzer + Improvement Suggestions | #Python #NLP #Flask #AI
+
+I'm excited to share my latest project — a smart web application that helps job seekers optimize their resumes with AI-driven insights. 💡
+
+📄 Users can upload their resumes (PDF/Word)
+🤖 The system analyzes formatting, keyword match, skills relevance, and ATS (Applicant Tracking System) compatibility
+📈 Displays an intuitive ATS Score in a circular progress bar
+🛠️ Provides personalized suggestions to improve the resume’s effectiveness
+
+Built using Python, Flask, MongoDB, and Natural Language Processing, this project taught me a lot about real-world resume evaluation and front-end/backend integration.
+
+💬 I’d love to hear your feedback or ideas for further improvements!
+🙌 Open to collaborations or suggestions.
+
+#AIProjects #ResumeAnalyzer #FlaskApp #MongoDB #PythonDeveloper #MachineLearning #NLP #JobSearch #CareerGrowth #OpenToWork
+app.py
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from pymongo import MongoClient
+import os
+import re
+import docx2txt
+from PyPDF2 import PdfReader
+
+app = Flask(__name__)
+app.secret_key = os.urandom(24)
+
+# MongoDB setup
+MONGO_URI = "mongodb://localhost:27017/"
+client = MongoClient(MONGO_URI)
+db = client['resume_analyzer_db']
+users_collection = db['users']
+
+def extract_text_from_resume(file_stream, filename):
+    if filename.lower().endswith('.pdf'):
+        reader = PdfReader(file_stream)
+        text = ""
+        for page in reader.pages:
+            text += page.extract_text() or ""
+        return text
+    elif filename.lower().endswith('.docx'):
+        return docx2txt.process(file_stream)
+    return None
+
+def analyze_resume(text):
+    suggestions = []
+    text_lower = text.lower()
+    if 'skills' not in text_lower:
+        suggestions.append("Add a Skills section to highlight your abilities.")
+    if 'experience' not in text_lower:
+        suggestions.append("Include your Work Experience section.")
+    if 'education' not in text_lower:
+        suggestions.append("Mention your educational background.")
+    if not re.search(r'\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b', text_lower):
+        suggestions.append("Include your email address for contact.")
+    if len(text.split()) < 200:
+        suggestions.append("Add more content to make your resume detailed.")
+    if not suggestions:
+        suggestions.append("Your resume looks good. Tailor it for each job you apply to.")
+    return suggestions
+
+def calculate_ats_score(text):
+    keywords = ['skills', 'experience', 'education', 'email']
+    score = sum(1 for keyword in keywords if keyword in text.lower())
+    return (score / len(keywords)) * 100
+
+@app.route('/')
+def landing():
+    return render_template('landing.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if 'username' in session:
+        return redirect(url_for('dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = users_collection.find_one({'username': username})
+        if user and check_password_hash(user['password'], password):
+            session['username'] = username
+            return redirect(url_for('dashboard'))
+        flash("Invalid username or password.", "danger")
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        confirm = request.form.get('confirm_password')
+
+        if not username or not password or not confirm:
+            flash("Please fill in all fields.", "danger")
+        elif password != confirm:
+            flash("Passwords do not match.", "danger")
+        elif users_collection.find_one({'username': username}):
+            flash("Username already exists.", "danger")
+        else:
+            hashed = generate_password_hash(password)
+            users_collection.insert_one({'username': username, 'password': hashed})
+            flash("Registration successful! Please login.", "success")
+            return redirect(url_for('login'))
+    return render_template('register.html')
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if 'username' not in session:
+        flash("Please log in to access the dashboard.", "warning")
+        return redirect(url_for('login'))
+
+    suggestions = ats_score = resume_text = None
+
+    if request.method == 'POST':
+        file = request.files.get('resume')
+        if not file or file.filename == '':
+            flash("Please upload a resume file.", "danger")
+        else:
+            text = extract_text_from_resume(file.stream, file.filename)
+            if text:
+                resume_text = text
+                suggestions = analyze_resume(text)
+                ats_score = calculate_ats_score(text)
+            else:
+                flash("Unsupported file type. Upload PDF or DOCX only.", "danger")
+
+    return render_template('dashboard.html',
+                           username=session['username'],
+                           suggestions=suggestions,
+                           ats_score=ats_score)
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    flash("You have been logged out.", "info")
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
+login.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background: #e9ecef;">
+    <div class="container mt-5">
+        <div class="login-box bg-white p-4 rounded shadow mx-auto" style="max-width: 400px;">
+            <div class="login-box bg-white p-4 rounded shadow mx-auto" style="max-width: 400px;">
+                <div class="text-center mb-3">
+                    <img src="{{ url_for('static', filename='resume_logo.png') }}" alt="Logo" style="height: 60px;">
+                </div>
+            <h3 class="text-center mb-3">Login to Your Account</h3>
+            <form method="POST">
+                <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+                <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+                <button type="submit" class="btn btn-success w-100">Login</button>
+            </form>
+            <div class="text-center mt-3">
+                <small>Don't have an account? <a href="{{ url_for('register') }}">Register</a></small>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>
+dashboard.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+.circular-score {
+    display: inline-block;
+    text-align: center;
+}
+
+.circular-chart {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 3.8;
+    stroke: #00bfa6;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s;
+}
+
+.percentage {
+    fill: #333;
+    font-family: Arial, sans-serif;
+    font-size: 0.5em;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transform: rotate(90deg);
+    transform-origin: center;
+}
+
+.resume-strength {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #00bfa6;
+    font-size: 16px;
+}
+</style>
+</head>
+<body style="background-color: #f8f9fa;">
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+
+            <h4 class="text-center mb-4">Welcome, {{ username }}</h4>
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="resume" class="form-label"><strong>Upload Your Resume</strong></label>
+                    <input class="form-control" type="file" name="resume" accept=".pdf,.docx" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Analyze Resume</button>
+            </form>
+
+            {% if ats_score is not none %}
+    <hr class="my-4">
+    
+    <div class="text-center mb-4">
+        <div class="circular-score">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle"
+                      stroke-dasharray="{{ ats_score }}, 100"
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <text x="18" y="20.35" class="percentage">{{ ats_score|round(0) }}</text>
+            </svg>
+            <p class="resume-strength">RESUME STRENGTH</p>
+        </div>
+
+        <div class="suggestions-box mt-3">
+            <span class="badge bg-warning text-dark">{{ suggestions|length }} suggested improvements</span>
+        </div>
+    </div>
+
+    <h6>Suggestions</h6>
+    <ul class="list-group">
+        {% for s in suggestions %}
+            <li class="list-group-item">{{ s }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+            <div class="mt-4 text-center">
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+landing.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Score</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    .banner {
+      background-color: #00e6ff;
+      height: 250px;
+      border-bottom-right-radius: 200px;
+    }
+
+    .message {
+      margin: 30px auto;
+      font-size: 20px;
+      color: #187a91;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .start-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <img src="{{ url_for('static', filename='resume_logo.png') }}" alt="Logo" style="margin-top: 20px; height: 80px;">
+    
+   </div>
+  <div class="message">GO AND CHECK YOUR RESUME SCORE</div>
+
+  <a href="{{ url_for('login') }}">
+    <button class="start-btn">LET'S START</button>
+  </a>
+
+</body>
+</html>
+register.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background: #f8f9fa;">
+    <div class="container mt-5">
+        <div class="register-box bg-white p-4 rounded shadow mx-auto" style="max-width: 400px;">
+            <div class="register-box bg-white p-4 rounded shadow mx-auto" style="max-width: 400px;">
+                <div class="text-center mb-3">
+                    <img src="{{ url_for('static', filename='resume_logo.png') }}" alt="Logo" style="height: 60px;">
+                </div>
+            <h3 class="text-center mb-3">Create Account</h3>
+            <form method="POST">
+                <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+                <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+                <input type="password" name="confirm_password" class="form-control mb-3" placeholder="Confirm Password" required>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <div class="text-center mt-3">
+                <small>Already have an account? <a href="{{ url_for('login') }}">Login</a></small>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>
