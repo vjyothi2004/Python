@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+.circular-score {
+    display: inline-block;
+    text-align: center;
+}
+
+.circular-chart {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 3.8;
+    stroke: #00bfa6;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s;
+}
+
+.percentage {
+    fill: #333;
+    font-family: Arial, sans-serif;
+    font-size: 0.5em;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    transform: rotate(90deg);
+    transform-origin: center;
+}
+
+.resume-strength {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #00bfa6;
+    font-size: 16px;
+}
+</style>
+</head>
+<body style="background-color: #f8f9fa;">
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+
+            <h4 class="text-center mb-4">Welcome, {{ username }}</h4>
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="resume" class="form-label"><strong>Upload Your Resume</strong></label>
+                    <input class="form-control" type="file" name="resume" accept=".pdf,.docx" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Analyze Resume</button>
+            </form>
+
+            {% if ats_score is not none %}
+    <hr class="my-4">
+    
+    <div class="text-center mb-4">
+        <div class="circular-score">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle"
+                      stroke-dasharray="{{ ats_score }}, 100"
+                      d="M18 2.0845
+                         a 15.9155 15.9155 0 0 1 0 31.831
+                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <text x="18" y="20.35" class="percentage">{{ ats_score|round(0) }}</text>
+            </svg>
+            <p class="resume-strength">RESUME STRENGTH</p>
+        </div>
+
+        <div class="suggestions-box mt-3">
+            <span class="badge bg-warning text-dark">{{ suggestions|length }} suggested improvements</span>
+        </div>
+    </div>
+
+    <h6>Suggestions</h6>
+    <ul class="list-group">
+        {% for s in suggestions %}
+            <li class="list-group-item">{{ s }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+            <div class="mt-4 text-center">
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

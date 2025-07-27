@@ -1,0 +1,38 @@
+<!-- templates/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | Resume Analyzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #fceabb, #f8b500);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      border-radius: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
+      <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='resume_logo.png') }}" alt="Logo" style="height: 60px;">
+        <h4 class="mt-2">Join Resume Analyzer</h4>
+        <p class="text-muted">Create your account</p>
+      </div>
+      <form method="POST">
+        <input type="text" name="username" class="form-control mb-3" placeholder="Username" required>
+        <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+        <input type="password" name="confirm_password" class="form-control mb-3" placeholder="Confirm Password" required>
+        <button type="submit" class="btn btn-warning w-100 mb-3">Register</button>
+        <div class="text-center">
+          <small>Already have an account? <a href="{{ url_for('login') }}">Login</a></small>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

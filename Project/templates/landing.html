@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Score</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    .banner {
+      background-color: #00e6ff;
+      height: 250px;
+      border-bottom-right-radius: 200px;
+    }
+
+    .message {
+      margin: 30px auto;
+      font-size: 20px;
+      color: #187a91;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .start-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <img src="{{ url_for('static', filename='resume_logo.png') }}" alt="Logo" style="margin-top: 20px; height: 80px;">
+    
+   </div>
+  <div class="message">GO AND CHECK YOUR RESUME SCORE</div>
+
+  <a href="{{ url_for('login') }}">
+    <button class="start-btn">LET'S START</button>
+  </a>
+
+</body>
+</html>
