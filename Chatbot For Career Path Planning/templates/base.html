@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Career Path Planner{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"> {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('home') }}" class="flex items-center space-x-2">
+                        <i class="fas fa-route text-primary text-2xl"></i>
+                        <span class="text-xl font-bold text-gray-900">Career Path Planner</span>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('home') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors {% if request.endpoint == 'home' %}text-primary border-b-2 border-primary{% endif %}">
+                        Home
+                    </a>
+                    <a href="{{ url_for('features') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors {% if request.endpoint == 'features' %}text-primary border-b-2 border-primary{% endif %}">
+                        Features
+                    </a> {% if session.user %}
+                    <a href="{{ url_for('dashboard') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors {% if request.endpoint == 'dashboard' %}text-primary border-b-2 border-primary{% endif %}">
+                            Dashboard
+                        </a>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">Welcome, {{ session.username }}</span>
+                        <a href="{{ url_for('logout') }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                                Logout
+                            </a>
+                    </div>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors {% if request.endpoint == 'login' %}text-primary border-b-2 border-primary{% endif %}">
+                            Login
+                        </a>
+                    <a href="{{ url_for('signup') }}" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                            Sign Up
+                        </a> {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary focus:outline-none focus:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200">
+                    <a href="{{ url_for('home') }}" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium {% if request.endpoint == 'home' %}text-primary bg-blue-50{% endif %}">
+                        Home
+                    </a>
+                    <a href="{{ url_for('features') }}" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium {% if request.endpoint == 'features' %}text-primary bg-blue-50{% endif %}">
+                        Features
+                    </a> {% if session.user %}
+                    <a href="{{ url_for('dashboard') }}" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium {% if request.endpoint == 'dashboard' %}text-primary bg-blue-50{% endif %}">
+                            Dashboard
+                        </a>
+                    <div class="px-3 py-2">
+                        <span class="text-sm text-gray-600">Welcome, {{ session.username }}</span>
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="bg-red-500 hover:bg-red-600 text-white block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                            Logout
+                        </a> {% else %}
+                    <a href="{{ url_for('login') }}" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium {% if request.endpoint == 'login' %}text-primary bg-blue-50{% endif %}">
+                            Login
+                        </a>
+                    <a href="{{ url_for('signup') }}" class="bg-primary hover:bg-secondary text-white block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                            Sign Up
+                        </a> {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {% for category, message in messages %}
+        <div class="mb-4 p-4 rounded-md {% if category == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-green-50 border border-green-200 text-green-700{% endif %}">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas {% if category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium">{{ message }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Career Path Planner</h3>
+                    <p class="text-gray-300">Your AI-powered career guidance companion. Discover your perfect career path with personalized recommendations.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('home') }}" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{{ url_for('features') }}" class="text-gray-300 hover:text-white transition-colors">Features</a></li>
+                        {% if not session.user %}
+                        <li><a href="{{ url_for('login') }}" class="text-gray-300 hover:text-white transition-colors">Login</a></li>
+                        <li><a href="{{ url_for('signup') }}" class="text-gray-300 hover:text-white transition-colors">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <p class="text-gray-300">Have questions? We're here to help you find your perfect career path.</p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+                <p>&copy; 2024 Career Path Planner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
