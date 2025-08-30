@@ -1,0 +1,160 @@
+{% extends "base.html" %} {% block title %}Login - Career Path Planner{% endblock %} {% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-primary">
+                <i class="fas fa-route text-white text-2xl"></i>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Sign in to your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Or
+                <a href="{{ url_for('signup') }}" class="font-medium text-primary hover:text-secondary transition-colors">
+                    create a new account
+                </a>
+            </p>
+        </div>
+
+        <form class="mt-8 space-y-6" method="POST" id="loginForm">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="email" class="sr-only">Email address</label>
+                    <input id="email" name="email" type="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                        placeholder="Email address">
+                    <div id="email-error" class="hidden text-red-600 text-sm mt-1"></div>
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                        placeholder="Password">
+                    <div id="password-error" class="hidden text-red-600 text-sm mt-1"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                        Remember me
+                    </label>
+                </div>
+
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-primary hover:text-secondary transition-colors">
+                        Forgot your password?
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-sign-in-alt text-primary group-hover:text-white transition-colors"></i>
+                    </span>
+                    Sign in
+                </button>
+            </div>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div>
+                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                            <i class="fab fa-google text-red-500"></i>
+                            <span class="ml-2">Google</span>
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors">
+                            <i class="fab fa-linkedin text-blue-600"></i>
+                            <span class="ml-2">LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Reset error messages
+        document.querySelectorAll('.hidden').forEach(el => {
+            if (el.id.includes('-error')) {
+                el.classList.add('hidden');
+            }
+        });
+
+        // Get form data
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        // Validation
+        let isValid = true;
+
+        // Email validation
+        if (!email) {
+            showError('email', 'Email is required');
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            showError('email', 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        // Password validation
+        if (!password) {
+            showError('password', 'Password is required');
+            isValid = false;
+        } else if (password.length < 6) {
+            showError('password', 'Password must be at least 6 characters long');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Submit form
+            this.submit();
+        }
+    });
+
+    function showError(fieldId, message) {
+        const errorElement = document.getElementById(fieldId + '-error');
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+
+        // Add error styling to input
+        const inputElement = document.getElementById(fieldId);
+        inputElement.classList.add('border-red-500');
+        inputElement.classList.remove('border-gray-300');
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Remove error styling when user starts typing
+    document.getElementById('email').addEventListener('input', function() {
+        this.classList.remove('border-red-500');
+        this.classList.add('border-gray-300');
+        document.getElementById('email-error').classList.add('hidden');
+    });
+
+    document.getElementById('password').addEventListener('input', function() {
+        this.classList.remove('border-red-500');
+        this.classList.add('border-gray-300');
+        document.getElementById('password-error').classList.add('hidden');
+    });
+</script>
+{% endblock %}

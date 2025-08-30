@@ -1,0 +1,567 @@
+{% extends "base.html" %} {% block title %}Dashboard - Career Path Planner{% endblock %} {% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Career Path Dashboard</h1>
+                    <p class="text-gray-600">Welcome back, {{ username }}! Let's discover your perfect career path.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-circle text-green-500 mr-1"></i> AI Assistant Online
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Sidebar - User Profile & Quick Actions -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Profile</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">{{ username }}</p>
+                                <p class="text-sm text-gray-500">Career Explorer</p>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4">
+                            <h4 class="text-sm font-medium text-gray-900 mb-2">Quick Actions</h4>
+                            <div class="space-y-2">
+                                <button onclick="startNewChat()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Start New Chat
+                                </button>
+                                <button onclick="viewHistory()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors">
+                                    <i class="fas fa-history mr-2"></i>
+                                    View History
+                                </button>
+                                <button onclick="exportResults()" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors">
+                                    <i class="fas fa-download mr-2"></i>
+                                    Export Results
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggested Topics -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Suggested Topics</h3>
+
+                    <!-- Start Guided Conversation Button -->
+                    <div class="mb-4 p-3 bg-gradient-to-r from-primary to-secondary rounded-lg">
+                        <button onclick="startGuidedConversation()" class="w-full text-left text-white">
+                            <div class="flex items-center">
+                                <i class="fas fa-comments mr-2 text-xl"></i>
+                                <div>
+                                    <div class="font-semibold">Start Guided Conversation</div>
+                                    <div class="text-sm text-blue-100">Get personalized recommendations</div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="suggestTopic('I like coding and software development')" class="w-full text-left p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                            <i class="fas fa-code mr-2 text-blue-600"></i>
+                            Programming & Development
+                        </button>
+                        <button onclick="suggestTopic('I enjoy working with data and analytics')" class="w-full text-left p-3 text-sm bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                            <i class="fas fa-chart-bar mr-2 text-green-600"></i>
+                            Data & Analytics
+                        </button>
+                        <button onclick="suggestTopic('I have strong communication and marketing skills')" class="w-full text-left p-3 text-sm bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                            <i class="fas fa-comments mr-2 text-purple-600"></i>
+                            Communication & Marketing
+                        </button>
+                        <button onclick="suggestTopic('I studied business and finance')" class="w-full text-left p-3 text-sm bg-yellow-50 hover:bg-yellow-100 rounded-lg transition-colors">
+                            <i class="fas fa-briefcase mr-2 text-yellow-600"></i>
+                            Business & Finance
+                        </button>
+                        <button onclick="suggestTopic('I love creative design and visual art')" class="w-full text-left p-3 text-sm bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
+                            <i class="fas fa-palette mr-2 text-red-600"></i>
+                            Creative & Design
+                        </button>
+                        <button onclick="suggestTopic('I am interested in healthcare and helping people')" class="w-full text-left p-3 text-sm bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors">
+                            <i class="fas fa-heartbeat mr-2 text-indigo-600"></i>
+                            Healthcare & Helping
+                        </button>
+                        <button onclick="suggestTopic('I enjoy teaching and education')" class="w-full text-left p-3 text-sm bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors">
+                            <i class="fas fa-graduation-cap mr-2 text-teal-600"></i>
+                            Teaching & Education
+                        </button>
+                        <button onclick="suggestTopic('I love research and scientific experiments')" class="w-full text-left p-3 text-sm bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors">
+                            <i class="fas fa-flask mr-2 text-orange-600"></i>
+                            Research & Science
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 h-[600px] flex flex-col">
+                    <!-- Chat Header -->
+                    <div class="border-b border-gray-200 p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-lg"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-900">Career AI Assistant</h3>
+                                    <p class="text-sm text-gray-500">Ask me about your career path!</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="clearChat()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button onclick="toggleFullscreen()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
+                        <!-- Welcome Message -->
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-white text-sm"></i>
+                            </div>
+                            <div class="bg-blue-50 rounded-lg p-3 max-w-xs lg:max-w-md">
+                                <p class="text-sm text-gray-900">
+                                    Hello! I'm your AI career assistant. I can help you discover the perfect career path based on your skills, interests, and background.
+                                    <br><br> Tell me about yourself! What are your strengths, what subjects do you enjoy, or what kind of work interests you?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="border-t border-gray-200 p-4">
+                        <form id="chat-form" class="flex space-x-3">
+                            <div class="flex-1">
+                                <input type="text" id="chat-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tell me about your skills, interests, or career goals..." autocomplete="off">
+                            </div>
+                            <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-secondary transition-colors flex items-center">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Send
+                            </button>
+                        </form>
+                        <div class="mt-2 text-xs text-gray-500">
+                            Press Enter to send, or try one of the suggested topics above.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Recommendations -->
+                <div id="career-recommendations" class="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6 hidden">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recommended Careers</h3>
+                    <div id="careers-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Career cards will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Career Card Template -->
+<template id="career-card-template">
+    <div class="career-card bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between mb-3">
+            <h4 class="font-semibold text-gray-900 career-title"></h4>
+            <div class="flex space-x-1">
+                <button class="feedback-btn text-gray-400 hover:text-green-500 transition-colors" data-type="helpful">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
+                <button class="feedback-btn text-gray-400 hover:text-red-500 transition-colors" data-type="not_helpful">
+                    <i class="fas fa-thumbs-down"></i>
+                </button>
+            </div>
+        </div>
+        <p class="text-sm text-gray-600 career-description mb-3"></p>
+        <div class="flex items-center justify-between">
+            <span class="text-xs text-gray-500 career-category"></span>
+            <button class="text-xs text-primary hover:text-secondary transition-colors learn-more-btn">
+                Learn More
+            </button>
+        </div>
+    </div>
+</template> {% endblock %} {% block scripts %}
+<script>
+    let chatHistory = [];
+    let currentCareers = [];
+
+    // Initialize chat
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendMessage();
+        });
+
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Focus on input
+        chatInput.focus();
+    });
+
+    function sendMessage(messageText = null) {
+        const chatInput = document.getElementById('chat-input');
+        const message = messageText || chatInput.value.trim();
+
+        if (!message) return;
+
+        // Add user message to chat
+        addMessage(message, 'user');
+
+        // Clear input field only if we got the message from it
+        if (!messageText) {
+            chatInput.value = '';
+        }
+
+        // Show typing indicator
+        showTypingIndicator();
+
+        // Send to backend
+        fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideTypingIndicator();
+
+                if (data.error) {
+                    addMessage('Sorry, there was an error processing your request. Please try again.', 'bot');
+                } else {
+                    addMessage(data.response, 'bot');
+
+                    if (data.careers && data.careers.length > 0) {
+                        currentCareers = data.careers;
+                        showCareerRecommendations(data.careers);
+                    }
+                }
+            })
+            .catch(error => {
+                hideTypingIndicator();
+                addMessage('Sorry, there was an error connecting to the server. Please try again.', 'bot');
+                console.error('Error:', error);
+            });
+    }
+
+    function addMessage(message, sender) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3';
+
+        if (sender === 'user') {
+            messageDiv.innerHTML = `
+            <div class="flex-1"></div>
+            <div class="bg-primary text-white rounded-lg p-3 max-w-xs lg:max-w-md">
+                <p class="text-sm">${escapeHtml(message)}</p>
+            </div>
+            <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user text-white text-sm"></i>
+            </div>
+        `;
+        } else {
+            messageDiv.innerHTML = `
+            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-robot text-white text-sm"></i>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-3 max-w-xs lg:max-w-md">
+                <p class="text-sm text-gray-900">${formatBotMessage(message)}</p>
+            </div>
+        `;
+        }
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Store in history
+        chatHistory.push({
+            message,
+            sender,
+            timestamp: new Date()
+        });
+    }
+
+    function showTypingIndicator() {
+        const chatMessages = document.getElementById('chat-messages');
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typing-indicator';
+        typingDiv.className = 'flex items-start space-x-3';
+        typingDiv.innerHTML = `
+        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-robot text-white text-sm"></i>
+        </div>
+        <div class="bg-blue-50 rounded-lg p-3">
+            <div class="flex space-x-1">
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            </div>
+        </div>
+    `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    function showCareerRecommendations(careers) {
+        const recommendationsDiv = document.getElementById('career-recommendations');
+        const careersList = document.getElementById('careers-list');
+
+        // Clear existing recommendations
+        careersList.innerHTML = '';
+
+        // Add career cards
+        careers.forEach((career, index) => {
+            const card = createCareerCard(career, index);
+            careersList.appendChild(card);
+        });
+
+        // Show recommendations
+        recommendationsDiv.classList.remove('hidden');
+        recommendationsDiv.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+
+    function createCareerCard(career, index) {
+        const template = document.getElementById('career-card-template');
+        const card = template.content.cloneNode(true);
+
+        const titleElement = card.querySelector('.career-title');
+        const descriptionElement = card.querySelector('.career-description');
+        const categoryElement = card.querySelector('.career-category');
+
+        titleElement.textContent = career;
+        descriptionElement.textContent = getCareerDescription(career);
+        categoryElement.textContent = getCareerCategory(career);
+
+        // Add event listeners
+        const feedbackBtns = card.querySelectorAll('.feedback-btn');
+        feedbackBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const feedbackType = this.dataset.type;
+                sendFeedback(feedbackType, career);
+                this.classList.add('text-green-500');
+            });
+        });
+
+        const learnMoreBtn = card.querySelector('.learn-more-btn');
+        learnMoreBtn.addEventListener('click', function() {
+            learnMoreAboutCareer(career);
+        });
+
+        return card;
+    }
+
+    function getCareerDescription(career) {
+        const descriptions = {
+            'Software Engineer': 'Develop software applications and systems using programming languages and development tools.',
+            'Data Scientist': 'Analyze complex data sets to help organizations make better decisions.',
+            'Web Developer': 'Create and maintain websites and web applications.',
+            'Marketing Manager': 'Develop and execute marketing strategies to promote products or services.',
+            'Business Analyst': 'Analyze business processes and recommend improvements.',
+            'Graphic Designer': 'Create visual content for various media platforms.',
+            'Financial Analyst': 'Analyze financial data and provide investment guidance.',
+            'Project Manager': 'Plan and oversee projects to ensure they are completed on time and within budget.',
+            'UI/UX Designer': 'Design user interfaces and experiences for digital products.',
+            'Content Creator': 'Create engaging content for various platforms and audiences.'
+        };
+
+        return descriptions[career] || 'A professional role that matches your skills and interests.';
+    }
+
+    function getCareerCategory(career) {
+        const categories = {
+            'Software Engineer': 'Technology',
+            'Data Scientist': 'Technology',
+            'Web Developer': 'Technology',
+            'Marketing Manager': 'Business',
+            'Business Analyst': 'Business',
+            'Graphic Designer': 'Creative',
+            'Financial Analyst': 'Finance',
+            'Project Manager': 'Business',
+            'UI/UX Designer': 'Creative',
+            'Content Creator': 'Creative'
+        };
+
+        return categories[career] || 'Professional';
+    }
+
+    function sendFeedback(feedbackType, career) {
+        fetch('/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: feedbackType,
+                    career: career
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Feedback sent:', data);
+            })
+            .catch(error => {
+                console.error('Error sending feedback:', error);
+            });
+    }
+
+    function learnMoreAboutCareer(career) {
+        const message = `Tell me more about ${career}. What skills are required, what's the typical career path, and what's the job outlook?`;
+
+        // Send the message directly
+        sendMessage(message);
+    }
+
+    // Utility functions
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatBotMessage(message) {
+        // Convert line breaks to HTML
+        return message.replace(/\n/g, '<br>');
+    }
+
+    // Quick action functions
+    function startNewChat() {
+        if (confirm('Are you sure you want to start a new chat? This will clear the current conversation.')) {
+            clearChat();
+        }
+    }
+
+    function clearChat() {
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML = `
+        <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-robot text-white text-sm"></i>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-3 max-w-xs lg:max-w-md">
+                <p class="text-sm text-gray-900">
+                    Hello! I'm your AI career assistant. I can help you discover the perfect career path based on your skills, interests, and background. 
+                    <br><br>
+                    Tell me about yourself! What are your strengths, what subjects do you enjoy, or what kind of work interests you?
+                </p>
+            </div>
+        </div>
+    `;
+
+        // Hide career recommendations
+        document.getElementById('career-recommendations').classList.add('hidden');
+
+        // Clear history
+        chatHistory = [];
+        currentCareers = [];
+
+        // Focus on input
+        document.getElementById('chat-input').focus();
+    }
+
+    function viewHistory() {
+        if (chatHistory.length === 0) {
+            alert('No chat history available.');
+            return;
+        }
+
+        const historyText = chatHistory.map(entry =>
+            `[${entry.timestamp.toLocaleTimeString()}] ${entry.sender.toUpperCase()}: ${entry.message}`
+        ).join('\n');
+
+        alert('Chat History:\n\n' + historyText);
+    }
+
+    function exportResults() {
+        if (currentCareers.length === 0) {
+            alert('No career recommendations to export.');
+            return;
+        }
+
+        const exportData = {
+            timestamp: new Date().toISOString(),
+            careers: currentCareers,
+            chatHistory: chatHistory
+        };
+
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], {
+            type: 'application/json'
+        });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = 'career-recommendations.json';
+        link.click();
+    }
+
+    function suggestTopic(topic) {
+        document.getElementById('chat-input').value = topic;
+        sendMessage();
+    }
+
+    function toggleFullscreen() {
+        const chatContainer = document.querySelector('.lg\\:col-span-2');
+        chatContainer.classList.toggle('fixed');
+        chatContainer.classList.toggle('inset-0');
+        chatContainer.classList.toggle('z-50');
+        chatContainer.classList.toggle('bg-white');
+
+        if (chatContainer.classList.contains('fixed')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    function startGuidedConversation() {
+        const message = "yes";
+        addMessage(message, 'user');
+
+        // Send the message to start the conversation
+        setTimeout(() => {
+            sendMessage(message);
+        }, 100);
+    }
+</script>
+{% endblock %}
